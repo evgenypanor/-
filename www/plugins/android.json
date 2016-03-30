@@ -1,0 +1,30 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "io.cordova.myappe34c21"
+        },
+        "cordova.custom.plugins.exitapp": {
+            "PACKAGE_NAME": "io.cordova.myappe34c21"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "io.cordova.myappe34c21"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "io.cordova.myappe34c21"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "io.cordova.myappe34c21"
+        },
+        "mx.ferreyra.callnumber": {
+            "PACKAGE_NAME": "io.cordova.myappe34c21"
+        }
+    },
+    "dependent_plugins": {}
+}

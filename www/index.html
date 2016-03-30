@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <!--<link href="Framework7/css/framework7.material.css" rel="stylesheet" />
+    <link href="Framework7/css/framework7.material.rtl.css" rel="stylesheet" />
+    <link href="Framework7/css/framework7.material.colors.css" rel="stylesheet" />-->
+    <link href="Framework7/css/framework7.ios.min.css" rel="stylesheet" />
+    <link href="Framework7/css/framework7.ios.colors.min.css" rel="stylesheet" />
+    <link href="Framework7/css/framework7.ios.rtl.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <title>כוננות יומית</title>
+</head>
+<body>
+    <div class="statusbar-overlay"></div>
+    <div class="panel-overlay"></div>
+    <!-- Views-->
+    <div class="views">
+        <div class="view view-main">
+            <!-- Top Navbar-->
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <!-- We have home navbar without left link-->
+                    <div class="left sliding" style="font-weight:bold;"> כוננות יומית ל<span>&nbsp;</span><span id="dutyDateTitle"></span></div>
+                </div>
+            </div>
+            <div class="pages navbar-through toolbar-through">
+                <div data-page="mainPage" class="page">
+                    <form data-search-list=".duty-items-list" data-search-in=".item-title-serachable"
+                          class="searchbar searchbar-init" data-found=".searchbar-found" data-not-found=".searchbar-not-found">
+                        <div class="searchbar-input">
+                            <input type="search" placeholder="חיפוש"><a href="#" class="searchbar-clear"></a>
+                        </div><a href="#" class="searchbar-cancel">בטל</a>
+                    </form>
+                    <div class="searchbar-overlay"></div>
+                    <!-- Scrollable page content-->
+                    <div class="page-content">
+                        <!--<div class="content-block content-block-margin10">
+                            <a id="calLink" href="Pages/DateChooserPage.html" class="button button-big button-fill">בחר יום בתאריכון</a>
+                        </div>-->
+
+                        <div class="content-block-title content-block-margin10" style="font-weight:bold;">רשימת כוננים לתאריך <span id="dutyDate"></span></div>
+                        <div class="content-block content-block-margin10" style="font-weight:bold;">מנהל תורן <span id="manager"></span></div>
+                        <div class="content-block inset content-block-margin10">
+                            <p id="managerPhone"></p>
+                        </div>
+                        <!--<form data-search-list=".duty-items-list" data-search-in=".item-title-serachable"
+                              class="searchbar searchbar-init" data-found=".searchbar-found" data-not-found=".searchbar-not-found">
+                            <div class="searchbar-input">
+                                <input type="search" placeholder="חיפוש"><a href="#" class="searchbar-clear"></a>
+                            </div><a href="#" class="searchbar-cancel">בטל</a>
+                        </form>
+                        <div class="searchbar-overlay"></div>-->
+                        <div class="content-block searchbar-not-found">
+                            <div class="content-block-inner">Nothing found</div>
+                        </div>
+                        <div class="list-block duty-items-list virtual-list list-block-search searchbar-found">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <a href="#" class="link"></a><a href="#" class="link"></a>
+                    <a id="calLink" href="Pages/DateChooserPage.html" class="button button-fill">בחר יום בתאריכון</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Scripts block -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <!--<script src="Jquery/jquery-2.2.1.min.js"></script>-->
+    <script src="Framework7/js/framework7.min.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+</body>
+</html>
