@@ -107,7 +107,7 @@
   <platform name="wp8">
     <splash src="res/screens/wp8/SplashScreenImage.png" width="768" height="1280" />
   </platform>
-  <plugin name="cordova.custom.plugins.exitapp" spec="1.0.0" src="https://github.com/gaqzi/cordova-plugin-exitapp" />
+  <plugin name="cordova.custom.plugins.exitapp" spec="https://github.com/gaqzi/cordova-plugin-exitapp" src="git" />
   <preference name="KeepRunning" value="False" />
   <preference name="Orientation" value="portrait" />
   <access origin="tel:*" />
