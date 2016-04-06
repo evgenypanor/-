@@ -115,4 +115,5 @@
   <plugin name="cordova-plugin-device" spec="1.1.1" />
   <plugin name="cordova-plugin-inappbrowser" spec="1.2.1" />
   <plugin name="cordova-plugin-statusbar" spec="2.1.2" />
+  <plugin name="mx.ferreyra.callnumber" spec="https://github.com/Rohfosho/CordovaCallNumberPlugin.git" src="git" />
 </widget>
