@@ -6,7 +6,7 @@ var myApp;
 var calendarInline;
 var $$;
 var mainView;
-var selectedDate;
+var globalSelectedDate = new Date();
 
 (function () {
     "use strict";
@@ -40,47 +40,47 @@ var selectedDate;
         myApp.onPageInit('mainPage', function (page) {
             mainView.showToolbar();
             //alert(page.query.selectedDate);
-            GetDutyBySelectedDate(page.query.selectedDate);
-            var curDate = new Date(page.query.selectedDate);
+            GetDutyBySelectedDate(globalSelectedDate.toJSON());
+            var curDate = globalSelectedDate;
             
             document.getElementById("dutyDate").innerText = formatDate(new Date(curDate.setDate(curDate.getDate() - 1)));
             document.getElementById("dutyDateTitle").innerText = document.getElementById("dutyDate").innerText;
-            document.getElementById("calLink").href = document.getElementById("calLink").href + "?selectedDate=" + page.query.selectedDate;
+            document.getElementById("calLink").href = document.getElementById("calLink").href + "?selectedDate=" + globalSelectedDate.toJSON();
         });
 
-        var today = new Date();
-        GetDutyBySelectedDate(today.toJSON());
-        document.getElementById("dutyDate").innerText = formatDate(today);// {  today.getDay() + "/" + today.getMonth() + "/" + today.getFullYear();
-        document.getElementById("dutyDateTitle").innerText = formatDate(today);
+        globalSelectedDate = new Date();
+        GetDutyBySelectedDate(globalSelectedDate.toJSON());
+        document.getElementById("dutyDate").innerText = formatDate(globalSelectedDate);// {  today.getDay() + "/" + today.getMonth() + "/" + today.getFullYear();
+        document.getElementById("dutyDateTitle").innerText = formatDate(globalSelectedDate);
 
         myApp.onPageInit('dateChooserPage', function (page) {
             mainView.hideToolbar();
 
             var monthNames = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
-            var dateToSelect;
+            //var dateToSelect;
 
-            if (page.query.selectedDate == null) {
-                dateToSelect = new Date();
-            }
-            else {
-                var curDate = new Date(page.query.selectedDate);
-                dateToSelect = new Date(curDate.setDate(curDate.getDate() - 1));
-            }
+            //if (globalSelectedDate == null) {
+            //    dateToSelect = new Date();
+            //}
+            //else {
+            //    var curDate = globalSelectedDate;
+            //    dateToSelect = new Date(curDate.setDate(curDate.getDate() - 1));
+            //}
             calendarInline = myApp.calendar({
                 container: '#calendar-inline-container',
                 //input: "#calendar-date-format",
                 //closeOnSelect: true,
-                value: [dateToSelect],
+                value: [globalSelectedDate],
                 weekHeader: true,
-                //firstDay: 7,
+                firstDay: 0,
                 dateFormat: "dd/MM/yyyy",
                 onChange: function (p, values, displayValues) {
                     //var d = new Date(p.
                     //GetDutyBySelectedDate(new Date(p.value[0]).toJSON());
                     var d = new Date(p.value[0]);
-                    selectedDate = d;
+                    globalSelectedDate = d;
                     d.setDate(d.getDate() + 1);
-                    
+
                     mainView.router.back(
                         {
                             url: "index.html?selectedDate=" + d.toJSON(),
@@ -200,7 +200,13 @@ function GetDutyBySelectedDate(dateVal) {
                     }];
                 }
                 document.getElementById('manager').innerText = viewModel.EventManager;
-                document.getElementById('managerPhone').innerText = viewModel.EventManagerPhone;
+                var managerPh = PhoneGrabber(viewModel.EventManagerPhone);
+                if (managerPh != null) {
+                    document.getElementById('managerPhone').innerHTML = viewModel.EventManagerPhone.replace(managerPh, '<a onClick=\"MakePhoneCall(\'' + managerPh + '\');\">' + managerPh + '</a>');
+                }
+                else {
+                    document.getElementById('managerPhone').innerText = viewModel.EventManagerPhone;
+                }
                 //$$('.manager').html('חיחליח');
                 var myList = myApp.virtualList('.duty-items-list', {
                     // Array with items data
@@ -257,16 +263,42 @@ function PhoneGrabber(inputString) {
     var arr;
     arr = inputString.match(/\d+/);
 
-    return inputString;
+    if (arr == null)
+        return null;
+    else
+        return arr[0];
+
+    //return inputString;
 }
 
+var modalDeatils;
+
 function ShowFullDetails(desc, details) {
-    myApp.alert(details, desc);
+    var phoneNum = PhoneGrabber(details);
+    if (phoneNum != null) {
+        details = details.replace(phoneNum, '<a onClick=\"MakePhoneCall(\'' + phoneNum + '\');\">' + phoneNum + '</a>');
+    }
+    modalDeatils = myApp.modal(
+        {
+            title: desc,
+            text: details,
+            buttons:
+                [{
+                    text: 'סגור',
+                    onClick: function () {
+                        //myApp.alert('You clicked first button!')
+                    }
+                }]
+        });
+                    
+    //myApp.alert(details, desc);
 }
 
 function MakePhoneCall(phoneNum) {
-    myApp.confirm('לחייג ל ' + phoneNum, 'חיוג',
+    myApp.closeModal(modalDeatils);
+    myApp.confirm('לחייג ל ' + phoneNum, 'חיוג לכונן',
       function () {
+          
           window.plugins.CallNumber.callNumber(function success() { }, function onError(err) { alert(err); }, phoneNum, true);
       },
       function () {
