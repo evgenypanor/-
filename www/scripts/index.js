@@ -343,6 +343,8 @@ function ShowFullDetails(desc, details) {
 function NavBack() {
     mainView.router.back();
     mainView.showToolbar();
+    var mySearchbar = $$('.searchbar')[0].f7Searchbar;
+    mySearchbar.disable();
 }
 
 function MakePhoneCall(phoneNum) {
