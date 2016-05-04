@@ -124,9 +124,9 @@ var searchList;
         myApp.onPageInit('searchPage', function (page) {
             mainView.hideToolbar();
 
-            var curDate = globalSelectedDate;
+            //var curDate = globalSelectedDate;
 
-            globalSelectedDate = new Date(curDate.setDate(curDate.getDate() + 1));
+            //globalSelectedDate = new Date(curDate.setDate(curDate.getDate() + 1));
             
             searchList = myApp.virtualList('.duty-items-search-list', {
                 items:[],
