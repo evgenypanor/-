@@ -1,0 +1,32 @@
+﻿<div class="navbar">
+    <div class="navbar-inner">
+        <!-- We have home navbar without left link-->
+        <div class="center">חיפוש תורן</div>
+        <div class="right">
+            <a onClick="NavBack();" class="link icon-only" data-force="true"><i class="icon icon-back"></i></a>
+        </div>
+    </div>
+</div>
+<div class="pages navbar-through toolbar-through">
+    <!-- Page, data-page contains page name-->
+    <div data-page="searchPage" class="page">
+        <form class="searchbar searchbar-init" data-search-list=".duty-items-search-list" data-search-in=".item-title-serachable">
+            <div class="searchbar-input">
+                <input type="search" placeholder="Search">
+                <a href="#" class="searchbar-clear"></a>
+            </div>
+            <a href="#" class="searchbar-cancel">בטל</a>
+        </form>
+
+        <div class="searchbar-overlay"></div>
+        <div class="page-content">
+            <div class="list-block duty-items-search-list virtual-list list-block-search">
+            </div>
+        </div>
+        <div class="toolbar">
+            <div class="toolbar-inner">
+
+            </div>
+        </div>
+    </div>
+</div>

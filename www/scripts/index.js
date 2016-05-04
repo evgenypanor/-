@@ -7,6 +7,7 @@ var calendarInline;
 var $$;
 var mainView;
 var globalSelectedDate = new Date();
+var searchList;
 
 (function () {
     "use strict";
@@ -120,9 +121,73 @@ var globalSelectedDate = new Date();
         });
 
 
+        myApp.onPageInit('searchPage', function (page) {
+            mainView.hideToolbar();
+
+            var curDate = globalSelectedDate;
+
+            globalSelectedDate = new Date(curDate.setDate(curDate.getDate() + 1));
+            
+            searchList = myApp.virtualList('.duty-items-search-list', {
+                items:[],
+                renderItem: function (index, item) {
+                    return '<li><a class="item-content item-link" onClick=\"ShowFullDetails(\'' + item.Description.replace("שם", "") + '\', \'' + item.Details + '\');\"">' +
+                                      '<div class="item-inner" >' +
+                                            '<div class="item-title">' + item.Details + '</div>' +
+                                        '<div class="item-title">' + item.FormattedEventDate + '</div>' +
+                                      '</div>' +
+                               '</a></li>';
+                },
+                searchAll: function (query, items) {
+                    var foundItems = [];
+                    if (query.length >= 3) {
+                        SearchByFreeText(query);
+                    }
+                    // Return array with indexes of matched items
+                    return foundItems;
+                }
+            });
 
 
+            var mySearchbar = myApp.searchbar('.searchbar', {
+                customSearch: true,
+                onSearch: function (s) {
+                    alert(s);
+                },
+                onClear: function (a) {
+                    alert(a);
+                },
+                searchList: '.duty-items-search-list',
+                searchIn: '.item-title-serachable'
+            });
+        });
 
+
+        function SearchByFreeText(query) {
+            var encodedQuery = encodeURI(query);
+            
+            //$$.getJSON('http://localhost/TLVDutyService/TLVDutyService.svc/getfreetextevents?freeText=' + encodedQuery, {}, function (data, status, xhr) {
+            $$.getJSON('https://www5.tel-aviv.gov.il/TlvServices/TLVDutyService/TLVDutyService.svc/getfreetextevents?freeText=' + encodedQuery, {}, function (data, status, xhr) {
+                if (status == '200') {
+                    var searchModel = data.GetFreeTextEventsResult;
+
+                    if (searchModel.length == 0) {
+                        searchModel = [{
+                            Description: 'אין נתונים להצגה',
+                            Details: 'אין נתונים להצגה',
+                            FormattedEventDate: ''
+                        }];
+                    }
+                        searchList.deleteAllItems();
+                        searchList.items = searchModel;
+                        searchList.update();
+                }
+                else {
+                    alert('Error loading data');
+                }
+                handleLoadFinished();
+            });
+        }
 
         //device back button support
         document.addEventListener("backbutton", function (e) {
@@ -158,29 +223,10 @@ var globalSelectedDate = new Date();
 
 function formatDate(date) {
     return date.toLocaleDateString("he-IL").replace('.', '/').replace('.', '/');
-    //var localDate = new Date(date.toLocaleDateString("he-IL"));
-    //var formattedDate;
-    ////today.getDay() + "/" + today.getMonth() + "/" + today.getFullYear();
-    //if (localDate.getDay() < 10) {
-    //    formattedDate = "0" + localDate.getDay();
-    //}
-    //else {
-    //    formattedDate = localDate.getDay();
-    //}
-
-    //formattedDate += "/";
-
-    //if (localDate.getMonth() < 10) {
-    //    formattedDate += "0" + localDate.getMonth();
-    //}
-    //else {
-    //    formattedDate += localDate.getMonth();
-    //}
-
-    //formattedDate += "/" + localDate.getFullYear();
-
-    //return formattedDate;
 }
+
+
+
 
 function GetDutyBySelectedDate(dateVal) {
     try {
@@ -292,6 +338,11 @@ function ShowFullDetails(desc, details) {
         });
                     
     //myApp.alert(details, desc);
+}
+
+function NavBack() {
+    mainView.router.back();
+    mainView.showToolbar();
 }
 
 function MakePhoneCall(phoneNum) {
