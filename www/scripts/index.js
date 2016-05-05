@@ -131,7 +131,9 @@ var searchList;
             searchList = myApp.virtualList('.duty-items-search-list', {
                 items:[],
                 renderItem: function (index, item) {
-                    return '<li><a class="item-content item-link" onClick=\"ShowFullDetails(\'' + item.Description.replace("שם", "") + '\', \'' + item.Details + '\');\"">' +
+                    //var jDate = JSON.parse(item.EventDate);
+                    //var selDate = new Date(item.FormattedEventDate);
+                    return '<li><a class="item-content item-link" onClick=\"NavigateToSpecificDate(' + parseInt(item.EventDate.substr(6)) + ');\"">' +
                                       '<div class="item-inner" >' +
                                             '<div class="item-title">' + item.Details + '</div>' +
                                         '<div class="item-title">' + item.FormattedEventDate + '</div>' +
@@ -162,7 +164,7 @@ var searchList;
             });
         });
 
-
+        
         function SearchByFreeText(query) {
             var encodedQuery = encodeURI(query);
             
@@ -261,7 +263,7 @@ function GetDutyBySelectedDate(dateVal) {
                     //    return 60;
                     //},
                     renderItem: function (index, item) {
-                        return '<li><a class="item-content item-link" onClick=\"ShowFullDetails(\'' + item.Description + '\', \'' + item.Details + '\');\"">' +
+                        return '<li><a class="item-content item-link" onClick=\"NavigateToSpecificDate(\'' + item.Description + '\', \'' + item.Details + '\');\"">' +
                                       '<div class="item-inner" >' +
                                         //'<div class="item-title-row">' +
                                             '<div class="item-title">' + item.Description + '</div>' +
@@ -345,6 +347,19 @@ function NavBack() {
     mainView.showToolbar();
     var mySearchbar = $$('.searchbar')[0].f7Searchbar;
     mySearchbar.disable();
+}
+
+
+function NavigateToSpecificDate(dateToNavigate) {
+    globalSelectedDate = new Date(dateToNavigate);
+    //var d = new Date();
+    //globalSelectedDate = d;
+    globalSelectedDate.setDate(globalSelectedDate.getDate() + 1);
+    mainView.router.back(
+                        {
+                            url: "index.html?selectedDate=" + globalSelectedDate.toJSON(),
+                            force: true,
+                        });
 }
 
 function MakePhoneCall(phoneNum) {
